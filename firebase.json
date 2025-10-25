@@ -16,6 +16,12 @@
           }
         ]
       }
+    ],
+    "rewrites": [
+      {
+        "source": "/verifyRecaptcha",
+        "function": "verifyRecaptcha"
+      }
     ]
   }
 }

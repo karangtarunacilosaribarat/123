@@ -18,7 +18,18 @@ form?.addEventListener('submit', async (e)=>{
       token = await window.grecaptcha.execute('YOUR_SITE_KEY', {action: 'submit'});
     }
 
+    
+    // verify token with server function first
+    if(token){
+      const vr = await fetch('/verifyRecaptcha', {
+        method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({token})
+      }).then(r=>r.json()).catch(()=>({success:false, score:0}));
+      if(!vr || vr.success===false || (typeof vr.score==='number' && vr.score < 0.3)){
+        showToast('Verifikasi reCAPTCHA gagal. Coba lagi.', 'error'); return;
+      }
+    }
     const cred = await createUserWithEmailAndPassword(auth, email, password);
+        
 
     // determine role: first user becomes super_admin
     const usersSnap = await getDocs(collection(db, 'users'));
