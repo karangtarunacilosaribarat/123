@@ -1,0 +1,5 @@
+
+.hero{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:20px;border:1px solid var(--bd);border-radius:16px;background:radial-gradient(1200px 600px at -10% -20%, rgba(142,45,226,.2), transparent), var(--card)}
+.hero h2{margin:0;font-size:28px}
+.link{color:#d4c7ff;text-decoration:none}
+.link:hover{text-decoration:underline}

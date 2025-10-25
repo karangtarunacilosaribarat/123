@@ -1,0 +1,26 @@
+<!doctype html><html><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Kegiatan – KARTEJI</title>
+<link rel="icon" href="assets/favicon.ico">
+<link rel="stylesheet" href="css/base.css"><link rel="stylesheet" href="css/theme.css">
+</head><body>
+<header class="navbar"><img src="assets/logo.svg" class="logo"><h1>Kegiatan</h1><div class="nav-actions"><a class="btn" href="index.html">Beranda</a></div></header>
+<div class="container">
+  <div id="detail" class="card"></div>
+</div>
+<script type="module">
+  import { db } from './js/firebase-config.js';
+  import { doc, getDoc } from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js';
+  const params = new URLSearchParams(location.search);
+  const id = params.get('id');
+  async function boot(){
+    if(!id) { document.getElementById('detail').innerHTML = '<p>Data tidak ditemukan.</p>'; return; }
+    const s = await getDoc(doc(db,'kegiatan', id));
+    if(!s.exists()) { document.getElementById('detail').innerHTML = '<p>Data tidak ditemukan.</p>'; return; }
+    const d = s.data();
+    const tgl = d.date ? new Date(d.date).toLocaleDateString('id-ID') : '';
+    document.getElementById('detail').innerHTML = `<h2 style="margin:0 0 6px">${d.title||''}</h2><div class="muted" style="margin:8px 0">Tanggal: ${tgl} · Lokasi: ${d.location||''}</div><div style="white-space:pre-wrap;line-height:1.7">${d.desc||''}</div>`;
+  }
+  boot();
+</script>
+</body></html>

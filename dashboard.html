@@ -1,0 +1,154 @@
+<!doctype html><html><head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>KARTEJI Portal – Karang Taruna Cilosari Barat</title>
+<link rel="icon" href="assets/favicon.ico">
+<meta name="theme-color" content="#8E2DE2">
+<meta name="description" content="Portal digital Karang Taruna Cilosari Barat (KARTEJI).">
+<link rel="stylesheet" href="css/base.css"><link rel="stylesheet" href="css/theme.css">
+</head>
+<body>
+<header class="navbar">
+  <img src="assets/logo.svg" class="logo" alt="KARTEJI">
+  <h1>KARTEJI Portal</h1>
+  <div class="nav-actions">
+    <button id="themeToggle" class="btn">🌙</button>
+  </div>
+</header>
+<div id="modeBadge" class="mode-badge">Mode: Desktop</div>
+<script src="js/theme.js"></script>
+
+<div class="container">
+  <section id="overview" class="card" style="margin-top:12px">
+    <h3 style="margin-top:0">Overview</h3>
+    <div class="grid" style="grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:10px;margin:10px 0 16px">
+      <div class="card" id="ov-berita" style="padding:12px"><div class="muted">Berita</div><div id="ov-berita-val" style="font-size:22px;font-weight:700">–</div></div>
+      <div class="card" id="ov-kegiatan" style="padding:12px"><div class="muted">Kegiatan</div><div id="ov-kegiatan-val" style="font-size:22px;font-weight:700">–</div></div>
+      <div class="card" id="ov-umkm" style="padding:12px"><div class="muted">UMKM</div><div id="ov-umkm-val" style="font-size:22px;font-weight:700">–</div></div>
+      <div class="card" id="ov-dok" style="padding:12px"><div class="muted">Dokumen</div><div id="ov-dok-val" style="font-size:22px;font-weight:700">–</div></div>
+      <div class="card" id="ov-saldo" style="padding:12px"><div class="muted">Saldo Kas</div><div id="ov-saldo-val" style="font-size:22px;font-weight:700">–</div></div>
+    </div>
+    <canvas id="chartKas" height="120"></canvas>
+  </section>
+  <div class="tabbar" id="tabs">
+    <button class="btn" id="tab-users-btn" style="display:none">Pengguna</button>
+    <button class="btn" id="tab-berita-btn">Berita</button>
+    <button class="btn" id="tab-kegiatan-btn">Kegiatan</button>
+    <button class="btn" id="tab-umkm-btn">UMKM</button>
+    <button class="btn" id="tab-kas-btn">Kas</button>
+    <button class="btn" id="tab-doc-btn">Dokumen</button>
+    <button class="btn" id="tab-profil-btn">Profil Org.</button>
+  </div>
+
+  <div id="tab-users" class="tabpane" style="display:none"><div class="card"><h3>👤 Manajemen Pengguna (Super Admin)</h3><div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:8px"><input id="user-search" placeholder="Cari email/nama..." class="badge" style="padding:10px 12px;width:260px"><select id="user-role-select" class="badge" style="padding:10px 12px"><option value="anggota">anggota</option><option value="ketua">ketua</option><option value="wakil_ketua">wakil_ketua</option><option value="sekretaris">sekretaris</option><option value="bendahara">bendahara</option><option value="humas_kreatif">humas_kreatif</option><option value="koordinator_umkm">koordinator_umkm</option><option value="keamanan">keamanan</option><option value="super_admin">super_admin</option></select><button class="btn" id="user-apply-role">Terapkan Peran</button></div><table class="table"><thead><tr><th>Tgl</th><th>Nomor</th><th>Jenis</th><th>Judul</th><th>Aksi</th>Tgl</th><th>Keterangan</th><th>Kategori</th><th>Jenis</th><th>Nominal</th><th>Aksi</th>Nama</th><th>Kategori</th><th>Pemilik</th><th>Telepon</th><th>Aksi</th>Tgl</th><th>Judul</th><th>Lokasi</th><th>Aksi</th>Tgl</th><th>Judul</th><th>Kategori</th><th>Aksi</th>Email</th><th>Nama</th><th>Role</th><th>Aksi</th></tr></thead><tbody id="tbl-users"></tbody></table></div><div class="card" style="margin-top:12px"><h3>🧰 Backup & Restore (Super Admin)</h3><div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:8px"><button class="btn" id="btn-backup">Backup JSON</button><input type="file" id="restore-file" accept=".json"><button class="btn ghost" id="btn-restore">Restore JSON</button></div><p class="muted">Termasuk koleksi: berita, kegiatan, umkm, kas, dokumen, profil.</p></div></div>
+
+<div id="tab-berita" class="tabpane active">
+    <div class="card">
+      <h3>📰 Berita (CRUD)</h3>
+      <form id="form-berita" class="form">
+        <input type="hidden" name="id"/>
+        <label>Tanggal<input name="date" type="date" required></label>
+        <label>Judul<input name="title" required></label>
+        <label>Kategori<input name="category"></label>
+        <label>Gambar (URL)<input name="image" placeholder="https://..."></label>
+        <label>Upload Gambar<input type="file" id="berita-image-file" accept="image/*"></label>
+        <label>Isi Berita<textarea name="content" rows="5"></textarea></label>
+        <button class="btn" type="submit">Simpan</button>
+        <button class="btn ghost" type="button" id="reset-berita">Reset</button>
+      </form>
+    </div>
+    <div style="display:flex;gap:8px;justify-content:flex-end;margin:8px 0"><button class="btn ghost" id="export-berita">Export CSV</button><button class="btn ghost" id="print-berita">Cetak PDF</button></div>
+    <table class="table"><thead><tr><th>Tgl</th><th>Judul</th><th>Kategori</th><th>Aksi</th></tr></thead></thead></table><div style="display:flex;gap:8px;justify-content:space-between;margin:8px 0"><input id="search-tbl-berita-admin" class="badge" placeholder="Cari..." style="padding:8px 10px;flex:1;max-width:280px"><div id="pager-tbl-berita-admin"></div></div><table class="table"><thead><tr><th></tbody></table>
+  </div>
+
+  <div id="tab-kegiatan" class="tabpane"><div class="card">
+    <h3>📅 Kegiatan (CRUD)</h3>
+    <form id="form-kegiatan" class="form">
+      <input type="hidden" name="id"/>
+      <label>Tanggal<input name="date" type="date" required></label>
+      <label>Judul<input name="title" required></label>
+      <label>Lokasi<input name="location"></label>
+      <label>Deskripsi<textarea name="desc" rows="4"></textarea></label>
+      <button class="btn" type="submit">Simpan</button>
+      <button class="btn ghost" type="button" id="reset-kegiatan">Reset</button>
+    </form>
+  </div>
+  <div style="display:flex;gap:8px;justify-content:flex-end;margin:8px 0"><button class="btn ghost" id="export-kegiatan">Export CSV</button><button class="btn ghost" id="print-kegiatan">Cetak PDF</button></div>
+  <table class="table"><thead><tr><th>Tgl</th><th>Judul</th><th>Lokasi</th><th>Aksi</th></tr></thead></thead></table><div style="display:flex;gap:8px;justify-content:space-between;margin:8px 0"><input id="search-tbl-kegiatan" class="badge" placeholder="Cari..." style="padding:8px 10px;flex:1;max-width:280px"><div id="pager-tbl-kegiatan"></div></div><table class="table"><thead><tr><th></tbody></table>
+  </div>
+
+  <div id="tab-umkm" class="tabpane"><div class="card">
+    <h3>🏪 UMKM (CRUD)</h3>
+    <form id="form-umkm" class="form">
+      <input type="hidden" name="id"/>
+      <label>Nama Usaha<input name="name" required></label>
+      <label>Pemilik<input name="owner"></label>
+      <label>Telepon<input name="phone"></label>
+      <label>Kategori<input name="category"></label>
+      <label>Alamat<input name="address"></label>
+      <label>Deskripsi<textarea name="desc" rows="4"></textarea></label>
+      <button class="btn" type="submit">Simpan</button>
+      <button class="btn ghost" type="button" id="reset-umkm">Reset</button>
+    </form>
+  </div>
+  <div style="display:flex;gap:8px;justify-content:flex-end;margin:8px 0"><button class="btn ghost" id="export-umkm">Export CSV</button><button class="btn ghost" id="print-umkm">Cetak PDF</button></div>
+  <table class="table"><thead><tr><th>Nama</th><th>Kategori</th><th>Pemilik</th><th>Telepon</th><th>Aksi</th></tr></thead></thead></table><div style="display:flex;gap:8px;justify-content:space-between;margin:8px 0"><input id="search-tbl-umkm" class="badge" placeholder="Cari..." style="padding:8px 10px;flex:1;max-width:280px"><div id="pager-tbl-umkm"></div></div><table class="table"><thead><tr><th></tbody></table>
+  </div>
+
+  <div id="tab-kas" class="tabpane"><div class="card">
+    <h3>💰 Kas (CRUD)</h3>
+    <form id="form-kas" class="form">
+      <input type="hidden" name="id"/>
+      <label>Tanggal<input name="date" type="date" required></label>
+      <label>Keterangan<input name="desc" required></label>
+      <label>Kategori<input name="category"></label>
+      <label>Jenis<select name="type"><option>Pemasukan</option><option>Pengeluaran</option></select></label>
+      <label>Nominal<input name="amount" type="number" required></label>
+      <button class="btn" type="submit">Simpan</button>
+      <button class="btn ghost" type="button" id="reset-kas">Reset</button>
+    </form>
+  </div>
+  <div style="display:flex;gap:8px;justify-content:flex-end;margin:8px 0"><button class="btn ghost" id="export-kas">Export CSV</button><button class="btn ghost" id="print-kas">Cetak PDF</button></div>
+  <table class="table"><thead><tr><th>Tgl</th><th>Keterangan</th><th>Kategori</th><th>Jenis</th><th>Nominal</th><th>Aksi</th></tr></thead></thead></table><div style="display:flex;gap:8px;justify-content:space-between;margin:8px 0"><input id="search-tbl-kas-admin" class="badge" placeholder="Cari..." style="padding:8px 10px;flex:1;max-width:280px"><div id="pager-tbl-kas-admin"></div></div><table class="table"><thead><tr><th></tbody></table>
+  </div>
+
+  <div id="tab-doc" class="tabpane"><div class="card">
+    <h3>📄 Dokumen (CRUD)</h3>
+    <form id="form-doc" class="form">
+      <input type="hidden" name="id"/>
+      <label>Tanggal<input name="date" type="date" required></label>
+      <label>Nomor Surat<input name="number"></label>
+      <label>Jenis<input name="type"></label>
+      <label>Upload File (PDF/IMG)<input type="file" id="dok-file" accept=".pdf,image/*"></label>
+      <label>Judul<input name="title" required></label>
+      <button class="btn" type="submit">Simpan</button>
+      <button class="btn ghost" type="button" id="reset-doc">Reset</button>
+    </form>
+  </div>
+  <div style="display:flex;gap:8px;justify-content:flex-end;margin:8px 0"><button class="btn ghost" id="export-dok">Export CSV</button><button class="btn ghost" id="print-dok">Cetak PDF</button></div>
+  <table class="table"><thead><tr><th>Tgl</th><th>Nomor</th><th>Jenis</th><th>Judul</th><th>Aksi</th></tr></thead></thead></table><div style="display:flex;gap:8px;justify-content:space-between;margin:8px 0"><input id="search-tbl-doc-admin" class="badge" placeholder="Cari..." style="padding:8px 10px;flex:1;max-width:280px"><div id="pager-tbl-doc-admin"></div></div><table class="table"><thead><tr><th></tbody></table>
+  </div>
+
+  <div id="tab-profil" class="tabpane"><div class="card">
+    <h3>🏷️ Profil Organisasi</h3>
+    <form id="form-profil" class="form">
+      <label>Nama Organisasi<input name="name" placeholder="Karang Taruna ..."></label>
+      <label>Tagline<input name="tagline" placeholder="Semangat Pemuda ..."></label>
+      <label>Deskripsi<textarea name="about" rows="5"></textarea></label>
+      <label>WhatsApp<input name="wa" placeholder="08xxxxxxxxxx"></label>
+      <label>Alamat<input name="address"></label>
+      <button class="btn" type="submit">Simpan Profil</button>
+    </form>
+  </div></div>
+
+</div>
+<footer class="footer">© KARTEJI · Karang Taruna Cilosari Barat</footer>
+<script type="module" src="js/firebase-config.js"></script>
+<script type="module" src="js/app-admin.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script type="module" src="js/chart-kas.js"></script>
+<script type="module" src="js/export.js"></script>
+<script type="module" src="js/admin-users.js"></script>
+<script type="module" src="js/admin-backup.js"></script>
+<script type="module" src="js/admin-utils.js"></script>
+</body></html>

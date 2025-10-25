@@ -1,0 +1,41 @@
+<!doctype html><html><head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>KARTEJI Portal – Karang Taruna Cilosari Barat</title>
+<link rel="icon" href="assets/favicon.ico">
+<meta name="theme-color" content="#8E2DE2">
+<meta name="description" content="Portal digital Karang Taruna Cilosari Barat (KARTEJI).">
+<link rel="stylesheet" href="css/base.css"><link rel="stylesheet" href="css/theme.css">
+</head>
+<body>
+
+<header class="navbar">
+  <img src="assets/logo.svg" class="logo" alt="KARTEJI">
+  <h1>KARTEJI Portal</h1>
+  <div class="nav-actions">
+    <button id="themeToggle" class="btn">🌙</button>
+  </div>
+</header>
+<div id="modeBadge" class="mode-badge">Mode: Desktop</div>
+<script src="js/theme.js"></script>
+
+<div class="container">
+  <section class="hero">
+    <div><h2>Selamat datang di KARTEJI</h2>
+      <p>Berita, kegiatan, dan direktori UMKM warga dalam satu portal.</p></div>
+    <a class="btn" href="dashboard.html">Masuk Dashboard</a>
+  </section>
+
+  <h3 style="margin-top:18px">📰 Berita Terbaru</h3>
+  <div id="berita-cards" class="grid grid-3"></div>
+
+  <h3 style="margin-top:18px">📅 Kegiatan Mendatang</h3>
+  <table class="table"><thead><tr><th>Tanggal</th><th>Judul</th><th>Lokasi</th></tr></thead><tbody id="kegiatan-rows"></tbody></table>
+
+  <h3 style="margin-top:18px">🏪 UMKM Unggulan</h3>
+  <table class="table"><thead><tr><th>Nama</th><th>Kategori</th><th>Telepon</th></tr></thead><tbody id="umkm-rows"></tbody></table>
+</div>
+<footer class="footer">© KARTEJI · Karang Taruna Cilosari Barat</footer>
+<script type="module" src="js/firebase-config.js"></script>
+<script type="module" src="js/app-home.js"></script>
+</body></html>
