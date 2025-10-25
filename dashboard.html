@@ -30,7 +30,7 @@
     </div>
     <canvas id="chartKas" height="120"></canvas>
   </section>
-  <div class="tabbar" id="tabs">
+  <div class="tabbar" id="tabs"><button class="btn" id="tab-me-btn">Profil Saya</button>
     <button class="btn" id="tab-users-btn" style="display:none">Pengguna</button>
     <button class="btn" id="tab-berita-btn">Berita</button>
     <button class="btn" id="tab-kegiatan-btn">Kegiatan</button>
@@ -141,6 +141,26 @@
     </form>
   </div></div>
 
+
+  <div id="tab-me" class="tabpane">
+    <div class="card" style="max-width:720px;margin:0 auto">
+      <h3>👤 Profil Saya</h3>
+      <form id="form-me" class="form">
+        <div style="display:flex;gap:14px;align-items:center;margin:10px 0 14px">
+          <img id="me-photo-preview" src="assets/logo.svg" style="width:64px;height:64px;border-radius:50%;border:1px solid rgba(255,255,255,.2)">
+          <input type="file" id="me-photo" accept="image/*">
+        </div>
+        <label>Nama Lengkap<input name="name" required></label>
+        <label>Email<input name="email" type="email" readonly></label>
+        <label>WhatsApp<input name="wa" placeholder="08xxxxxxxxxx"></label>
+        <div class="badge" id="me-role">Role: anggota</div>
+        <div style="margin-top:10px">
+          <button class="btn" type="submit">Simpan Profil</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
 </div>
 <footer class="footer">© KARTEJI · Karang Taruna Cilosari Barat</footer>
 <script type="module" src="js/firebase-config.js"></script>
@@ -151,4 +171,6 @@
 <script type="module" src="js/admin-users.js"></script>
 <script type="module" src="js/admin-backup.js"></script>
 <script type="module" src="js/admin-utils.js"></script>
+<script src="js/toast.js"></script>
+<script type="module" src="js/crud-profil-user.js"></script>
 </body></html>

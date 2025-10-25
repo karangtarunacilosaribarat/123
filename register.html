@@ -1,0 +1,27 @@
+<!doctype html><html><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Daftar – KARTEJI</title>
+<link rel="icon" href="assets/favicon.ico">
+<link rel="stylesheet" href="css/base.css"><link rel="stylesheet" href="css/theme.css">
+<script src="https://www.google.com/recaptcha/api.js?render=YOUR_SITE_KEY"></script>
+</head><body>
+<header class="navbar"><img src="assets/logo.svg" class="logo"><h1>Daftar Akun</h1><div class="nav-actions">
+  <a class="btn ghost" href="login.html">Login</a>
+</div></header>
+<div class="container">
+  <div class="card" style="max-width:460px;margin:24px auto">
+    <form id="register-form">
+      <label>Nama Lengkap<input name="name" required></label>
+      <label>Email<input type="email" name="email" required></label>
+      <label>Password<input type="password" name="password" required minlength="6"></label>
+      <button class="btn" type="submit">Daftar</button>
+    </form>
+    <p class="muted" style="margin-top:10px">Sudah punya akun? <a class="link" href="login.html">Masuk</a></p>
+  </div>
+</div>
+<div id="modeBadge" class="mode-badge">Mode: Desktop</div>
+<script src="js/theme.js"></script>
+<script type="module" src="js/firebase-config.js"></script>
+<script src="js/toast.js"></script>
+<script type="module" src="js/register.js"></script>
+</body></html>
